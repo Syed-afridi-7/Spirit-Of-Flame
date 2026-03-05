@@ -66,8 +66,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, mobileOpen, onMo
         </div>
         {!collapsed && (
           <div className="overflow-hidden">
-            <div className="font-bold text-base text-foreground leading-tight">SkillForge</div>
-            <div className="text-[10px] text-orange-400 font-semibold tracking-widest">2.0 PLATFORM</div>
+            <div className="font-bold text-base text-foreground leading-tight">AnbuDevs</div>
           </div>
         )}
       </div>

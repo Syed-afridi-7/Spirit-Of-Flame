@@ -28,7 +28,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         if (path.startsWith('/path/')) return 'Role Path';
         if (path.startsWith('/codelab/')) return 'Code Lab';
         if (path.startsWith('/aptitude/')) return 'Aptitude Hub';
-        return 'SkillForge 2.0';
+        return 'AnbuDevs';
     };
 
     return (
