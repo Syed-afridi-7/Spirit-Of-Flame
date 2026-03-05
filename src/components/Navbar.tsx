@@ -1,8 +1,26 @@
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Search } from "lucide-react";
+import { Search, Moon, Sun } from "lucide-react";
 
 const Navbar = () => {
   const location = useLocation();
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window !== "undefined") {
+      return document.documentElement.classList.contains("dark") ||
+        (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    }
+    return true;
+  });
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [isDark]);
 
   const navItems = [
     { name: "Explore", path: "/" },
@@ -45,6 +63,12 @@ const Navbar = () => {
             className="bg-nav-foreground/10 text-nav-foreground text-xs rounded-md pl-8 pr-3 py-1.5 w-44 placeholder:text-nav-foreground/30 border-none outline-none focus:ring-1 focus:ring-primary/50"
           />
         </div>
+        <button
+          onClick={() => setIsDark(!isDark)}
+          className="p-1.5 rounded-md text-nav-foreground/60 hover:text-nav-foreground hover:bg-nav-foreground/10 transition-colors"
+        >
+          {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+        </button>
         <span className="text-premium text-xs font-medium cursor-pointer hover:opacity-80">Premium</span>
         <button className="text-nav-foreground/70 text-xs hover:text-nav-foreground transition-colors">Register</button>
         <span className="text-nav-foreground/30 text-xs">or</span>
