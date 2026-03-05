@@ -38,13 +38,13 @@ The app will be available at `http://localhost:8080`.
 
 ## Available Scripts
 
-| Command | Description |
-|---|---|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
+| Command             | Description              |
+| ------------------- | ------------------------ |
+| `npm run dev`     | Start development server |
+| `npm run build`   | Build for production     |
 | `npm run preview` | Preview production build |
-| `npm run lint` | Run ESLint |
-| `npm run test` | Run tests |
+| `npm run lint`    | Run ESLint               |
+| `npm run test`    | Run tests                |
 
 ## Features
 
@@ -68,4 +68,5 @@ src/
 ├── hooks/            # Custom React hooks
 └── lib/              # Utility functions
 ```
+
 # Spirit-Of-Flame
