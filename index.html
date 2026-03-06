@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/jpeg" href="/mylogo.jpeg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AnbuDevs</title>
   <meta name="description"
@@ -17,11 +17,114 @@
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@LeetCodeClone" />
+  <style>
+    /* CSS for the loading animation */
+    #root:empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+      background-color: #1a1a1a;
+      /* Dark background to match 'dark' class */
+    }
+
+    #loading-splash {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+      background-color: #1a1a1a;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 9999;
+      transition: opacity 0.5s ease-out;
+    }
+
+    #loading-splash img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      /* Make the logo circular */
+      animation: pulse 1.5s infinite;
+      box-shadow: 0 0 20px rgba(249, 115, 22, 0.5);
+      /* Orange glow */
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(0.95);
+        opacity: 0.8;
+      }
+
+      50% {
+        transform: scale(1.05);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(0.95);
+        opacity: 0.8;
+      }
+    }
+
+    #loading-splash p {
+      margin-top: 20px;
+      color: #f97316;
+      /* Orange to match the theme */
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 600;
+      letter-spacing: 2px;
+      animation: fade-pulse 2s infinite;
+    }
+
+    @keyframes fade-pulse {
+
+      0%,
+      100% {
+        opacity: 0.5;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <div id="loading-splash">
+    <img src="/mylogo.jpeg" alt="Loading Logo" />
+    <p>LOADING...</p>
+  </div>
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
+  <script>
+    // Remove loading splash when React renders into #root
+    const observer = new MutationObserver((mutationsList, observer) => {
+      for (let mutation of mutationsList) {
+        if (mutation.type === 'childList') {
+          const splash = document.getElementById('loading-splash');
+          if (splash) {
+            splash.style.opacity = '0';
+            setTimeout(() => splash.remove(), 500); // Wait for transition
+          }
+          observer.disconnect();
+          break;
+        }
+      }
+    });
+
+    // Start observing the root node for configured mutations
+    const rootNode = document.getElementById('root');
+    if (rootNode) {
+      observer.observe(rootNode, { childList: true });
+    }
+  </script>
 </body>
 
 </html>

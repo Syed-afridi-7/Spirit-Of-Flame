@@ -59,10 +59,8 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, mobileOpen, onMo
         "flex items-center gap-3 px-4 py-5 border-b border-border/60 transition-all duration-300",
         collapsed ? "justify-center" : ""
       )}>
-        <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-orange-500 flex items-center justify-center glow-orange">
-          <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5">
-            <path d="M12 2L14.5 9H22L16.5 13.5L18.5 20.5L12 16.5L5.5 20.5L7.5 13.5L2 9H9.5L12 2Z" fill="white" />
-          </svg>
+        <div className="flex-shrink-0 w-9 h-9 rounded-lg overflow-hidden flex items-center justify-center glow-orange border border-orange-500/20">
+          <img src="/mylogo.jpeg" alt="Logo" className="w-full h-full object-cover" />
         </div>
         {!collapsed && (
           <div className="overflow-hidden">
