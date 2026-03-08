@@ -11,6 +11,7 @@ export interface Problem {
   constraints: string[];
   starterCode: { [lang: string]: string };
   solved?: boolean;
+  optimalComplexity?: { time: string; space: string };
 }
 
 export const problems: Problem[] = [
@@ -30,7 +31,8 @@ export const problems: Problem[] = [
       java: "class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        // Write your solution\n    }\n}",
       cpp: "class Solution {\npublic:\n    vector<int> twoSum(vector<int>& nums, int target) {\n        // Write your solution\n    }\n};",
       c: "int* twoSum(int* nums, int numsSize, int target, int* returnSize) {\n    // Write your solution\n}",
-    }
+    },
+    optimalComplexity: { time: 'O(n)', space: 'O(n)' }
   },
   {
     id: 2, title: "Reverse String", difficulty: "Easy", category: "Strings",
@@ -46,7 +48,8 @@ export const problems: Problem[] = [
       java: "class Solution {\n    public void reverseString(char[] s) {\n    }\n}",
       cpp: "class Solution {\npublic:\n    void reverseString(vector<char>& s) {\n    }\n};",
       c: "void reverseString(char* s, int sSize) {\n}",
-    }
+    },
+    optimalComplexity: { time: 'O(n)', space: 'O(1)' }
   },
   {
     id: 3, title: "Valid Parentheses", difficulty: "Easy", category: "Stacks",
@@ -64,7 +67,8 @@ export const problems: Problem[] = [
       java: "class Solution {\n    public boolean isValid(String s) {\n    }\n}",
       cpp: "class Solution {\npublic:\n    bool isValid(string s) {\n    }\n};",
       c: "bool isValid(char* s) {\n}",
-    }
+    },
+    optimalComplexity: { time: 'O(n)', space: 'O(n)' }
   },
   {
     id: 4, title: "Maximum Depth of Binary Tree", difficulty: "Easy", category: "Trees",
@@ -81,7 +85,8 @@ export const problems: Problem[] = [
       java: "class Solution {\n    public int maxDepth(TreeNode root) {\n    }\n}",
       cpp: "class Solution {\npublic:\n    int maxDepth(TreeNode* root) {\n    }\n};",
       c: "int maxDepth(struct TreeNode* root) {\n}",
-    }
+    },
+    optimalComplexity: { time: 'O(n)', space: 'O(h)' }
   },
   {
     id: 5, title: "Merge Sorted Array", difficulty: "Easy", category: "Arrays",
@@ -97,7 +102,8 @@ export const problems: Problem[] = [
       java: "class Solution {\n    public void merge(int[] nums1, int m, int[] nums2, int n) {\n    }\n}",
       cpp: "class Solution {\npublic:\n    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {\n    }\n};",
       c: "void merge(int* nums1, int m, int* nums2, int n) {\n}",
-    }
+    },
+    optimalComplexity: { time: 'O(m+n)', space: 'O(1)' }
   },
   {
     id: 6, title: "Palindrome Number", difficulty: "Easy", category: "Math",
@@ -114,7 +120,8 @@ export const problems: Problem[] = [
       java: "class Solution {\n    public boolean isPalindrome(int x) {\n    }\n}",
       cpp: "class Solution {\npublic:\n    bool isPalindrome(int x) {\n    }\n};",
       c: "bool isPalindrome(int x) {\n}",
-    }
+    },
+    optimalComplexity: { time: 'O(log n)', space: 'O(1)' }
   },
   {
     id: 7, title: "Single Number", difficulty: "Easy", category: "Arrays",
@@ -131,7 +138,8 @@ export const problems: Problem[] = [
       java: "class Solution {\n    public int singleNumber(int[] nums) {\n    }\n}",
       cpp: "class Solution {\npublic:\n    int singleNumber(vector<int>& nums) {\n    }\n};",
       c: "int singleNumber(int* nums, int numsSize) {\n}",
-    }
+    },
+    optimalComplexity: { time: 'O(n)', space: 'O(1)' }
   },
   {
     id: 8, title: "Climbing Stairs", difficulty: "Easy", category: "Dynamic Programming",
@@ -148,7 +156,8 @@ export const problems: Problem[] = [
       java: "class Solution {\n    public int climbStairs(int n) {\n    }\n}",
       cpp: "class Solution {\npublic:\n    int climbStairs(int n) {\n    }\n};",
       c: "int climbStairs(int n) {\n}",
-    }
+    },
+    optimalComplexity: { time: 'O(n)', space: 'O(1)' }
   },
   // ========== MEDIUM ==========
   {
@@ -165,7 +174,8 @@ export const problems: Problem[] = [
       java: "class Solution {\n    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n    }\n}",
       cpp: "class Solution {\npublic:\n    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {\n    }\n};",
       c: "struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {\n}",
-    }
+    },
+    optimalComplexity: { time: 'O(max(m,n))', space: 'O(max(m,n))' }
   },
   {
     id: 102, title: "Longest Substring Without Repeating Characters", difficulty: "Medium", category: "Strings",
@@ -182,7 +192,8 @@ export const problems: Problem[] = [
       java: "class Solution {\n    public int lengthOfLongestSubstring(String s) {\n    }\n}",
       cpp: "class Solution {\npublic:\n    int lengthOfLongestSubstring(string s) {\n    }\n};",
       c: "int lengthOfLongestSubstring(char* s) {\n}",
-    }
+    },
+    optimalComplexity: { time: 'O(n)', space: 'O(min(n,m))' }
   },
   {
     id: 103, title: "Container With Most Water", difficulty: "Medium", category: "Arrays",
@@ -198,7 +209,8 @@ export const problems: Problem[] = [
       java: "class Solution {\n    public int maxArea(int[] height) {\n    }\n}",
       cpp: "class Solution {\npublic:\n    int maxArea(vector<int>& height) {\n    }\n};",
       c: "int maxArea(int* height, int heightSize) {\n}",
-    }
+    },
+    optimalComplexity: { time: 'O(n)', space: 'O(1)' }
   },
   {
     id: 104, title: "3Sum", difficulty: "Medium", category: "Arrays",
@@ -214,7 +226,8 @@ export const problems: Problem[] = [
       java: "class Solution {\n    public List<List<Integer>> threeSum(int[] nums) {\n    }\n}",
       cpp: "class Solution {\npublic:\n    vector<vector<int>> threeSum(vector<int>& nums) {\n    }\n};",
       c: "int** threeSum(int* nums, int numsSize, int* returnSize, int** returnColumnSizes) {\n}",
-    }
+    },
+    optimalComplexity: { time: 'O(n\u00b2)', space: 'O(1)' }
   },
   {
     id: 105, title: "Binary Tree Level Order Traversal", difficulty: "Medium", category: "Trees",
@@ -230,7 +243,8 @@ export const problems: Problem[] = [
       java: "class Solution {\n    public List<List<Integer>> levelOrder(TreeNode root) {\n    }\n}",
       cpp: "class Solution {\npublic:\n    vector<vector<int>> levelOrder(TreeNode* root) {\n    }\n};",
       c: "int** levelOrder(struct TreeNode* root, int* returnSize, int** returnColumnSizes) {\n}",
-    }
+    },
+    optimalComplexity: { time: 'O(n)', space: 'O(n)' }
   },
   {
     id: 106, title: "Number of Islands", difficulty: "Medium", category: "Graphs",
@@ -246,7 +260,8 @@ export const problems: Problem[] = [
       java: "class Solution {\n    public int numIslands(char[][] grid) {\n    }\n}",
       cpp: "class Solution {\npublic:\n    int numIslands(vector<vector<char>>& grid) {\n    }\n};",
       c: "int numIslands(char** grid, int gridSize, int* gridColSize) {\n}",
-    }
+    },
+    optimalComplexity: { time: 'O(m\u00d7n)', space: 'O(m\u00d7n)' }
   },
   // ========== HARD ==========
   {
@@ -264,7 +279,8 @@ export const problems: Problem[] = [
       java: "class Solution {\n    public double findMedianSortedArrays(int[] nums1, int[] nums2) {\n    }\n}",
       cpp: "class Solution {\npublic:\n    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {\n    }\n};",
       c: "double findMedianSortedArrays(int* nums1, int nums1Size, int* nums2, int nums2Size) {\n}",
-    }
+    },
+    optimalComplexity: { time: 'O(log(m+n))', space: 'O(1)' }
   },
   {
     id: 301, title: "SQL Injection Prevention", difficulty: "Medium", category: "Cyber Security",
@@ -280,7 +296,8 @@ export const problems: Problem[] = [
       java: "class Solution {\n    public String sanitizeQuery(String query) {\n    }\n}",
       cpp: "class Solution {\npublic:\n    string sanitizeQuery(string query) {\n    }\n};",
       c: "char* sanitizeQuery(char* query) {\n}",
-    }
+    },
+    optimalComplexity: { time: 'O(n)', space: 'O(n)' }
   },
   {
     id: 202, title: "Trapping Rain Water", difficulty: "Hard", category: "Arrays",
@@ -297,7 +314,8 @@ export const problems: Problem[] = [
       java: "class Solution {\n    public int trap(int[] height) {\n    }\n}",
       cpp: "class Solution {\npublic:\n    int trap(vector<int>& height) {\n    }\n};",
       c: "int trap(int* height, int heightSize) {\n}",
-    }
+    },
+    optimalComplexity: { time: 'O(n)', space: 'O(1)' }
   },
   {
     id: 203, title: "N-Queens", difficulty: "Hard", category: "Backtracking",
@@ -313,7 +331,8 @@ export const problems: Problem[] = [
       java: "class Solution {\n    public List<List<String>> solveNQueens(int n) {\n    }\n}",
       cpp: "class Solution {\npublic:\n    vector<vector<string>> solveNQueens(int n) {\n    }\n};",
       c: "char*** solveNQueens(int n, int* returnSize, int** returnColumnSizes) {\n}",
-    }
+    },
+    optimalComplexity: { time: 'O(n!)', space: 'O(n\u00b2)' }
   },
   {
     id: 204, title: "Merge K Sorted Lists", difficulty: "Hard", category: "Linked Lists",
@@ -329,7 +348,8 @@ export const problems: Problem[] = [
       java: "class Solution {\n    public ListNode mergeKLists(ListNode[] lists) {\n    }\n}",
       cpp: "class Solution {\npublic:\n    ListNode* mergeKLists(vector<ListNode*>& lists) {\n    }\n};",
       c: "struct ListNode* mergeKLists(struct ListNode** lists, int listsSize) {\n}",
-    }
+    },
+    optimalComplexity: { time: 'O(n log k)', space: 'O(k)' }
   },
 ];
 

@@ -57,7 +57,7 @@ const quickActions = [
     { title: 'Code Lab', subtitle: 'DSA Problems', icon: Code2, to: '/codelab', color: 'from-orange-500 to-red-500', count: '600 Problems' },
     { title: 'Aptitude Hub', subtitle: 'Practice MCQs', icon: Brain, to: '/aptitude', color: 'from-blue-500 to-cyan-500', count: '200+ Questions' },
     { title: 'Communication', subtitle: 'English & Interview', icon: MessageSquare, to: '/communication', color: 'from-green-500 to-emerald-500', count: '5 Modules' },
-    { title: 'Role Paths', subtitle: 'Career Roadmaps', icon: Map, to: '/path/software-dev', color: 'from-purple-500 to-violet-500', count: '5 Paths' },
+    { title: 'Roadmaps', subtitle: 'Career Paths 2026', icon: Map, to: '/roadmaps', color: 'from-purple-500 to-violet-500', count: '10 Trending' },
 ];
 
 const difficultyStats = [

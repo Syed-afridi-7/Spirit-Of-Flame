@@ -21,7 +21,7 @@ export const leaderboardData: LeaderboardUser[] = [
   { rank: 9, name: 'Siddharth Joshi', initials: 'SJ', problemsSolved: 205, tutorialsCompleted: 15, streak: 20, score: 3210 },
   { rank: 10, name: 'Meera Kulkarni', initials: 'MK', problemsSolved: 192, tutorialsCompleted: 14, streak: 18, score: 3010 },
   { rank: 11, name: 'Aditya Gupta', initials: 'AG', problemsSolved: 180, tutorialsCompleted: 13, streak: 16, score: 2830 },
-  { rank: 12, name: 'Skill Learner', initials: 'SL', problemsSolved: 168, tutorialsCompleted: 12, streak: 14, score: 2650, isCurrentUser: true },
+  { rank: 12, name: 'AnbuDev', initials: 'AD', problemsSolved: 168, tutorialsCompleted: 12, streak: 14, score: 2650, isCurrentUser: true },
   { rank: 13, name: 'Radhika Menon', initials: 'RM', problemsSolved: 155, tutorialsCompleted: 12, streak: 12, score: 2470 },
   { rank: 14, name: 'Harsh Trivedi', initials: 'HT', problemsSolved: 142, tutorialsCompleted: 11, streak: 10, score: 2280 },
   { rank: 15, name: 'Sneha Deshmukh', initials: 'SD', problemsSolved: 130, tutorialsCompleted: 10, streak: 9, score: 2090 },

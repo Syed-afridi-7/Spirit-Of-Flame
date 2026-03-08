@@ -4,7 +4,8 @@ import {
   LayoutDashboard, Code2, Brain, MessageSquare, ChevronLeft,
   ChevronRight, Flame, Trophy, Target, BookOpen, Cpu, Shield,
   Palette, Server, X, FileText, MonitorPlay, Users, Rocket,
-  Briefcase, ShieldCheck
+  Briefcase, ShieldCheck, Map, Smartphone, Link, Sparkles, Cloud,
+  Database, PenTool, BarChart3
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -17,39 +18,25 @@ const navItems = [
     ],
   },
   {
-    section: 'PRACTICE (Coding)',
+    section: 'MODULE A: TECHNICAL CORE',
     items: [
-      { to: '/codelab', icon: Code2, label: 'Problem Editor' },
-      { to: '/practice/cyber-security', icon: Shield, label: 'Cyber Security (CTF)' },
+      { to: '/codelab', icon: Code2, label: 'Coding Practice' },
+      { to: '/tutorials', icon: BookOpen, label: 'Learning Tutorials' },
+      { to: '/practice/cyber-security', icon: Shield, label: 'Cybersecurity' },
     ],
   },
   {
-    section: 'LEARN (Tutorials)',
+    section: 'MODULE B: PLACEMENT',
     items: [
-      { to: '/tutorials', icon: BookOpen, label: 'Structured Paths' },
-      { to: '/playground', icon: MonitorPlay, label: 'Playground' },
+      { to: '/aptitude', icon: Brain, label: 'Aptitude' },
+      { to: '/communication', icon: MessageSquare, label: 'English & Verbal' },
     ],
   },
   {
-    section: 'READ (Articles)',
+    section: 'RESOURCES',
     items: [
       { to: '/articles', icon: FileText, label: 'Dev-Blog' },
-      { to: '/interview-experiences', icon: Users, label: 'Experiences' },
-    ],
-  },
-  {
-    section: 'SONA INCUBATION',
-    items: [
-      { to: '/sona-incubation', icon: Rocket, label: 'Startups & Ideas' },
-      { to: '/projects', icon: Briefcase, label: 'Projects Pool' },
-    ],
-  },
-  {
-    section: 'ROADMAPS',
-    items: [
-      { to: '/path/cybersecurity', icon: ShieldCheck, label: 'Cyber Security' },
-      { to: '/path/software-dev', icon: Cpu, label: 'Software Dev' },
-      { to: '/path/fullstack', icon: Server, label: 'Full Stack' },
+      { to: '/roadmaps', icon: Map, label: 'Career Roadmaps' },
     ],
   },
 ];
@@ -134,12 +121,12 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle, mobileOpen, onMo
           collapsed ? "justify-center" : ""
         )}>
           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-            SF
+            AD
           </div>
           {!collapsed && (
             <div className="min-w-0">
-              <div className="text-sm font-medium text-foreground truncate">Skill Learner</div>
-              <div className="text-xs text-muted-foreground truncate">Free Plan</div>
+              <div className="text-sm font-medium text-foreground truncate">AnbuDev</div>
+              <div className="text-xs text-muted-foreground truncate">Developer</div>
             </div>
           )}
         </div>

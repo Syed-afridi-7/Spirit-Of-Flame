@@ -15,6 +15,7 @@ import TutorialViewer from "./pages/TutorialViewer";
 import Articles from "./pages/Articles";
 import ArticleView from "./pages/ArticleView";
 import Leaderboard from "./pages/Leaderboard";
+import Roadmaps from "./pages/Roadmaps";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -45,6 +46,7 @@ const App = () => (
                   <Route path="/articles" element={<Articles />} />
                   <Route path="/articles/:id" element={<ArticleView />} />
                   <Route path="/leaderboard" element={<Leaderboard />} />
+                  <Route path="/roadmaps" element={<Roadmaps />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </MainLayout>

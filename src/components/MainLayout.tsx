@@ -7,11 +7,11 @@ const pageTitles: Record<string, string> = {
     '/': 'Dashboard',
     '/codelab': 'Code Lab',
     '/aptitude': 'Aptitude Hub',
-    '/communication': 'Communication',
-    '/tutorials': 'Tutorials',
-    '/articles': 'Articles',
+    '/communication': 'English & Verbal',
+    '/tutorials': 'Learning Tutorials',
+    '/articles': 'Dev-Blog',
     '/leaderboard': 'Leaderboard',
-    '/streak': 'My Streak',
+    '/roadmaps': 'Career Roadmaps',
 };
 
 interface MainLayoutProps {
@@ -26,6 +26,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     const getTitle = () => {
         const path = location.pathname;
         if (pageTitles[path]) return pageTitles[path];
+        if (path.startsWith('/roadmaps')) return 'Career Roadmaps';
         if (path.startsWith('/path/')) return 'Role Path';
         if (path.startsWith('/codelab/')) return 'Code Lab';
         if (path.startsWith('/aptitude/')) return 'Aptitude Hub';

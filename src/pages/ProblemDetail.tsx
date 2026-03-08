@@ -1,54 +1,53 @@
-import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, ThumbsUp, ThumbsDown, Bookmark, Share2, Play, Send, ChevronLeft, ChevronRight } from "lucide-react";
-import Editor from "@monaco-editor/react";
+import React, { useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowLeft, ChevronLeft, ChevronRight, Menu } from "lucide-react";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import Navbar from "@/components/Navbar";
-import DifficultyBadge from "@/components/DifficultyBadge";
-import { problems, problemDetails } from "@/data/problems";
+import { problems, getProblemById } from "@/data/problems";
+import { ProblemDetail as ProblemDetailType, ExecutionResult } from "@/types/problem";
+import { ProblemDescription } from "@/components/Problem/ProblemDescription";
+import { CodeEditor } from "@/components/Editor/CodeEditor";
+import { ExecutionResultPanel } from "@/components/Editor/ExecutionResultPanel";
 
-const LANGUAGES = ["Python3", "JavaScript", "TypeScript", "Java", "C++", "Go"] as const;
+// Map data problem format slightly if needed, or cast it:
+const getFormattedProblem = (id: string | undefined): ProblemDetailType | undefined => {
+  const p = getProblemById(Number(id));
+  if (!p) return undefined;
 
-const langToMonaco: Record<string, string> = {
-  Python3: "python",
-  JavaScript: "javascript",
-  TypeScript: "typescript",
-  Java: "java",
-  "C++": "cpp",
-  Go: "go",
+  // Cast safely, ensuring the structure
+  return {
+    id: p.id,
+    title: p.title,
+    difficulty: p.difficulty,
+    description: p.description,
+    constraints: p.constraints,
+    examples: p.examples,
+    starterCode: p.starterCode,
+    tags: p.tags,
+    optimalComplexity: p.optimalComplexity,
+  } as ProblemDetailType;
 };
 
-const ProblemDetail = () => {
+const ProblemIDEPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const problemIndex = problems.findIndex((p) => p.id === Number(id));
-  const problem = problems[problemIndex];
-  const details = problemDetails[Number(id)];
+  const problem = getFormattedProblem(id);
 
-  const [language, setLanguage] = useState<string>("Python3");
-  const [code, setCode] = useState<string>(details?.starterCode?.["Python3"] || "# Write your solution here");
-  const [showConsole, setShowConsole] = useState(false);
-  const [consoleOutput, setConsoleOutput] = useState("");
-  const [activeTab, setActiveTab] = useState<"description" | "editorial" | "solutions">("description");
-
-  const handleLanguageChange = (lang: string) => {
-    setLanguage(lang);
-    if (details?.starterCode?.[lang]) {
-      setCode(details.starterCode[lang]);
-    } else {
-      setCode("// Write your solution here");
-    }
-  };
-
-  const handleRun = () => {
-    setShowConsole(true);
-    setConsoleOutput("Accepted\n\nRuntime: 4ms (Beats 95.2%)\nMemory: 17.8 MB (Beats 68.4%)");
-  };
+  const [executionResult, setExecutionResult] = useState<ExecutionResult | null>(null);
 
   if (!problem) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-[#111] text-white flex flex-col">
         <Navbar />
-        <div className="flex items-center justify-center h-[calc(100vh-48px)]">
-          <p className="text-muted-foreground">Problem not found</p>
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold mb-4">Problem not found</h1>
+            <button onClick={() => navigate("/problemset")} className="text-blue-400 hover:underline">
+              Return to Problem List
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -58,204 +57,91 @@ const ProblemDetail = () => {
   const nextProblem = problemIndex < problems.length - 1 ? problems[problemIndex + 1] : null;
 
   return (
-    <div className="min-h-screen bg-background">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="h-screen flex flex-col bg-[#1e1e1e] overflow-hidden"
+    >
       <Navbar />
-      <div className="flex h-[calc(100vh-48px)]">
-        {/* Problem description panel */}
-        <div className="w-1/2 border-r border-border overflow-y-auto flex flex-col">
-          <div className="flex-1 p-6">
-            <div className="flex items-center justify-between mb-4">
-              <Link to="/problemset" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors">
-                <ArrowLeft className="w-3.5 h-3.5" /> Back to problems
-              </Link>
-              <div className="flex items-center gap-1">
-                {prevProblem && (
-                  <Link to={`/problems/${prevProblem.id}`} className="p-1.5 rounded hover:bg-secondary transition-colors">
-                    <ChevronLeft className="w-3.5 h-3.5 text-muted-foreground" />
-                  </Link>
-                )}
-                {nextProblem && (
-                  <Link to={`/problems/${nextProblem.id}`} className="p-1.5 rounded hover:bg-secondary transition-colors">
-                    <ChevronRight className="w-3.5 h-3.5 text-muted-foreground" />
-                  </Link>
-                )}
-              </div>
-            </div>
 
-            {/* Tabs */}
-            <div className="flex items-center gap-4 mb-5 border-b border-border">
-              {(["description", "editorial", "solutions"] as const).map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`pb-2.5 text-xs font-medium capitalize transition-colors border-b-2 ${
-                    activeTab === tab
-                      ? "border-primary text-foreground"
-                      : "border-transparent text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-
-            {activeTab === "description" && (
-              <>
-                <h1 className="text-xl font-semibold text-foreground mb-2">
-                  {problem.id}. {problem.title}
-                </h1>
-
-                <div className="flex items-center gap-3 mb-5">
-                  <DifficultyBadge difficulty={problem.difficulty} />
-                  <div className="flex items-center gap-2">
-                    {problem.tags.map((tag) => (
-                      <span key={tag} className="bg-tag text-tag-foreground text-[10px] px-2 py-0.5 rounded-full">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {details ? (
-                  <>
-                    <div className="text-sm text-foreground/90 leading-relaxed whitespace-pre-line mb-6">
-                      {details.description}
-                    </div>
-
-                    <div className="space-y-4 mb-6">
-                      {details.examples.map((ex, i) => (
-                        <div key={i} className="bg-secondary rounded-lg p-4">
-                          <p className="text-xs font-semibold text-foreground mb-2">Example {i + 1}:</p>
-                          <div className="font-mono text-xs space-y-1">
-                            <p><span className="text-muted-foreground">Input:</span> <span className="text-foreground">{ex.input}</span></p>
-                            <p><span className="text-muted-foreground">Output:</span> <span className="text-foreground">{ex.output}</span></p>
-                            {ex.explanation && (
-                              <p><span className="text-muted-foreground">Explanation:</span> <span className="text-foreground">{ex.explanation}</span></p>
-                            )}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="mb-6">
-                      <p className="text-xs font-semibold text-foreground mb-2">Constraints:</p>
-                      <ul className="list-disc list-inside space-y-1">
-                        {details.constraints.map((c, i) => (
-                          <li key={i} className="text-xs text-muted-foreground font-mono">{c}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  </>
-                ) : (
-                  <p className="text-sm text-muted-foreground">Problem description coming soon...</p>
-                )}
-              </>
-            )}
-
-            {activeTab === "editorial" && (
-              <div className="text-sm text-muted-foreground py-8 text-center">
-                <p>Editorial coming soon...</p>
-                <p className="text-xs mt-2">Subscribe to Premium for full editorials.</p>
-              </div>
-            )}
-
-            {activeTab === "solutions" && (
-              <div className="text-sm text-muted-foreground py-8 text-center">
-                <p>Community solutions coming soon...</p>
-              </div>
-            )}
-          </div>
-
-          <div className="flex items-center gap-4 px-6 py-3 border-t border-border">
-            <button className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors">
-              <ThumbsUp className="w-3.5 h-3.5" /> Like
-            </button>
-            <button className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors">
-              <ThumbsDown className="w-3.5 h-3.5" /> Dislike
-            </button>
-            <button className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors">
-              <Bookmark className="w-3.5 h-3.5" /> Save
-            </button>
-            <button className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors">
-              <Share2 className="w-3.5 h-3.5" /> Share
-            </button>
-          </div>
-        </div>
-
-        {/* Code editor panel */}
-        <div className="w-1/2 flex flex-col">
-          {/* Language selector */}
-          <div className="flex items-center gap-2 px-4 py-2 border-b border-border bg-secondary/50">
-            <select
-              value={language}
-              onChange={(e) => handleLanguageChange(e.target.value)}
-              className="text-xs bg-transparent text-foreground outline-none cursor-pointer"
-            >
-              {LANGUAGES.map((lang) => (
-                <option key={lang} value={lang}>{lang}</option>
-              ))}
-            </select>
-          </div>
-
-          {/* Monaco Editor */}
-          <div className="flex-1 overflow-hidden">
-            <Editor
-              height="100%"
-              language={langToMonaco[language] || "plaintext"}
-              value={code}
-              onChange={(value) => setCode(value || "")}
-              theme="vs-dark"
-              options={{
-                minimap: { enabled: false },
-                fontSize: 13,
-                fontFamily: "'JetBrains Mono', monospace",
-                lineNumbers: "on",
-                scrollBeyondLastLine: false,
-                automaticLayout: true,
-                tabSize: 4,
-                padding: { top: 12 },
-                renderLineHighlight: "line",
-                cursorBlinking: "smooth",
-                smoothScrolling: true,
-              }}
-            />
-          </div>
-
-          {/* Console output */}
-          {showConsole && (
-            <div className="h-36 border-t border-border bg-card overflow-auto p-3">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-medium text-foreground">Console</span>
-                <button onClick={() => setShowConsole(false)} className="text-xs text-muted-foreground hover:text-foreground">×</button>
-              </div>
-              <pre className="font-mono text-xs text-easy whitespace-pre-wrap">{consoleOutput}</pre>
-            </div>
-          )}
-
-          {/* Bottom bar */}
-          <div className="flex items-center justify-between px-4 py-2.5 border-t border-border bg-secondary/50">
+      {/* IDE Header */}
+      <div className="h-12 bg-[#2d2d2d] border-b border-[#111] flex items-center justify-between px-4 shrink-0">
+        <div className="flex items-center gap-4">
+          <Link to="/problemset" className="text-gray-400 hover:text-white transition flex items-center gap-2 text-sm font-medium">
+            <ArrowLeft className="w-4 h-4" />
+            <span className="hidden sm:inline">Problems</span>
+          </Link>
+          <div className="flex items-center gap-1 bg-[#1e1e1e] rounded-md p-1 border border-[#333]">
             <button
-              onClick={() => setShowConsole(!showConsole)}
-              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+              onClick={() => prevProblem && navigate(`/problems/${prevProblem.id}`)}
+              disabled={!prevProblem}
+              className="p-1 text-gray-400 hover:text-white disabled:opacity-30 transition"
+              title="Previous Problem"
             >
-              Console
+              <ChevronLeft className="w-4 h-4" />
             </button>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={handleRun}
-                className="inline-flex items-center gap-1.5 text-xs px-4 py-1.5 rounded bg-secondary hover:bg-accent text-foreground border border-border transition-colors"
-              >
-                <Play className="w-3 h-3" /> Run
-              </button>
-              <button className="inline-flex items-center gap-1.5 text-xs px-4 py-1.5 rounded bg-easy text-primary-foreground font-medium hover:opacity-90 transition-opacity">
-                <Send className="w-3 h-3" /> Submit
-              </button>
-            </div>
+            <button
+              onClick={() => nextProblem && navigate(`/problems/${nextProblem.id}`)}
+              disabled={!nextProblem}
+              className="p-1 text-gray-400 hover:text-white disabled:opacity-30 transition"
+              title="Next Problem"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
           </div>
         </div>
+
+        {/* Could add timer, auth, etc. here */}
       </div>
-    </div>
+
+      <div className="flex-1 overflow-hidden">
+        <PanelGroup direction="horizontal">
+          {/* Left Panel: Problem Description */}
+          <Panel defaultSize={45} minSize={30}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={problem.id}
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -20, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="h-full"
+              >
+                <ProblemDescription problem={problem} />
+              </motion.div>
+            </AnimatePresence>
+          </Panel>
+
+          {/* Resizer Handle */}
+          <PanelResizeHandle className="w-1.5 bg-[#111] hover:bg-blue-600 transition-colors cursor-col-resize flex flex-col justify-center items-center group relative z-10">
+            <div className="h-8 w-1 bg-gray-600 rounded-full group-hover:bg-blue-300"></div>
+          </PanelResizeHandle>
+
+          {/* Right Panel: Editor & Terminal */}
+          <Panel minSize={30}>
+            <PanelGroup direction="vertical">
+              <Panel defaultSize={70} minSize={30}>
+                <CodeEditor problem={problem} setExecutionResult={setExecutionResult} />
+              </Panel>
+
+              {executionResult && (
+                <>
+                  <PanelResizeHandle className="h-1.5 bg-[#111] hover:bg-blue-600 transition-colors cursor-row-resize flex justify-center items-center group relative z-10">
+                    <div className="w-8 h-1 bg-gray-600 rounded-full group-hover:bg-blue-300"></div>
+                  </PanelResizeHandle>
+
+                  <Panel defaultSize={30} minSize={15}>
+                    <ExecutionResultPanel result={executionResult} />
+                  </Panel>
+                </>
+              )}
+            </PanelGroup>
+          </Panel>
+        </PanelGroup>
+      </div>
+    </motion.div>
   );
 };
 
-export default ProblemDetail;
+export default ProblemIDEPage;

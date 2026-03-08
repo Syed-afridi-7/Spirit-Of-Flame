@@ -29,10 +29,10 @@ const ArticleView = () => {
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-orange-500 flex items-center justify-center text-white font-bold">
-                                SI
+                                AD
                             </div>
                             <div>
-                                <div className="text-sm font-semibold text-foreground">Sona Incubation</div>
+                                <div className="text-sm font-semibold text-foreground">AnbuDevs</div>
                                 <div className="flex gap-2 text-xs text-muted-foreground">
                                     <span>Oct 15, 2024</span>
                                     <span>•</span>

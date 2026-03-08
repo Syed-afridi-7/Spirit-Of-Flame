@@ -1,15 +1,16 @@
-# LeetCode Clone
+# AnbuDevs
 
-A full-featured LeetCode clone built with React, TypeScript, Vite, and Tailwind CSS. Practice coding problems, explore algorithms, and improve your problem-solving skills.
+A professional placement and developer skills platform built with React, TypeScript, Vite, and Tailwind CSS. Practice 3000+ coding problems, aptitude, English communication, and explore 10 trending career roadmaps.
 
 ## Tech Stack
 
 - **Frontend**: React 18 + TypeScript
-- **Build Tool**: Vite
+- **Build Tool**: Vite (SWC)
 - **Styling**: Tailwind CSS + shadcn/ui
 - **Code Editor**: Monaco Editor
-- **Routing**: React Router DOM
-- **State Management**: TanStack Query
+- **Animations**: Framer Motion
+- **Routing**: React Router DOM v6
+- **Data Fetching**: TanStack Query + PapaParse
 
 ## Getting Started
 
@@ -48,10 +49,14 @@ The app will be available at `http://localhost:8080`.
 
 ## Features
 
-- Browse and filter coding problems by difficulty (Easy / Medium / Hard)
+- 3000+ coding problems from LeetCode, HackerRank, Codeforces, CodeChef
+- Real-time search, filter by difficulty/source/topic, pagination
 - Monaco-based code editor with syntax highlighting
-- Dark / Light mode toggle
-- Problem detail view with description, examples, and constraints
+- Aptitude MCQ quiz system (200+ questions)
+- English & communication skills modules
+- 10 trending career roadmaps with progress tracking
+- Coding activity heatmap & leaderboard
+- Dark theme with glassmorphism UI
 - Responsive layout with collapsible sidebar
 
 ## Project Structure
@@ -60,13 +65,14 @@ The app will be available at `http://localhost:8080`.
 src/
 ├── components/       # Reusable UI components
 │   ├── ui/           # shadcn/ui components
-│   ├── Navbar.tsx
 │   ├── Sidebar.tsx
-│   └── ProblemList.tsx
+│   ├── Topbar.tsx
+│   └── CodingHeatmap.tsx
 ├── pages/            # Page-level components
-├── data/             # Static problem data
-├── hooks/            # Custom React hooks
+├── data/             # Static data (aptitude, tutorials, leaderboard)
+├── hooks/            # Custom React hooks (useProblems, etc.)
+├── types/            # TypeScript interfaces
 └── lib/              # Utility functions
+public/
+└── data/             # CSV datasets (3000 problems)
 ```
-
-# Spirit-Of-Flame

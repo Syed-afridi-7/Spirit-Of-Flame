@@ -7,7 +7,7 @@ const articles = [
     {
         id: 'understanding-react-hooks',
         title: 'Understanding React Hooks deeply',
-        author: 'Sona Incubation',
+        author: 'AnbuDevs',
         date: 'Oct 15, 2024',
         readTime: '8 min read',
         tags: ['React', 'Frontend'],

@@ -47,7 +47,7 @@ const Topbar: React.FC<TopbarProps> = ({ onMobileMenuToggle, title = 'Dashboard'
 
                 {/* Avatar */}
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-white text-xs font-bold cursor-pointer">
-                    SF
+                    AD
                 </div>
             </div>
         </header>

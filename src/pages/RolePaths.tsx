@@ -28,7 +28,7 @@ const roadmaps: Record<RoleKey, {
             {
                 title: 'Phase 2: Intermediate', skills: [
                     { name: 'System Design Basics', type: 'Design' },
-                    { name: 'Problem Solving (LeetCode 200+)', type: 'Practice' },
+                    { name: 'Problem Solving (200+ Problems)', type: 'Practice' },
                     { name: 'Git & Version Control', type: 'Tool' },
                     { name: 'REST APIs', type: 'Backend' },
                 ]

@@ -6,9 +6,9 @@ import DifficultyBadge from "@/components/DifficultyBadge";
 
 const studyPlans = [
   { title: "Top Interview 150", desc: "Must-do list for interview prep", problems: 150, icon: "🎯", color: "from-primary/20 to-primary/5" },
-  { title: "LeetCode 75", desc: "Ace coding interviews with 75 Qs", problems: 75, icon: "⚡", color: "from-easy/20 to-easy/5" },
+  { title: "AnbuDevs 75", desc: "Ace coding interviews with 75 Qs", problems: 75, icon: "⚡", color: "from-easy/20 to-easy/5" },
   { title: "SQL 50", desc: "Crack SQL interview in 50 Qs", problems: 50, icon: "🗃️", color: "from-medium/20 to-medium/5" },
-  { title: "Top 100 Liked", desc: "Most popular problems on LeetCode", problems: 100, icon: "❤️", color: "from-hard/20 to-hard/5" },
+  { title: "Top 100 Liked", desc: "Most popular problems on AnbuDevs", problems: 100, icon: "❤️", color: "from-hard/20 to-hard/5" },
 ];
 
 const trendingProblems = problems.slice(0, 6);
@@ -159,7 +159,7 @@ const Index = () => {
       {/* Footer */}
       <footer className="border-t border-border py-6">
         <div className="max-w-5xl mx-auto px-6 flex items-center justify-between text-xs text-muted-foreground">
-          <span>© 2026 LeetCode Clone</span>
+          <span>© 2026 AnbuDevs</span>
           <div className="flex items-center gap-4">
             <span>Terms</span>
             <span>Privacy</span>

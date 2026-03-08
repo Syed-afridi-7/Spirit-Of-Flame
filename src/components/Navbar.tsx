@@ -33,9 +33,9 @@ const Navbar = () => {
     <nav className="h-12 bg-nav flex items-center px-4 border-b border-border/20 sticky top-0 z-50">
       <Link to="/" className="flex items-center gap-2 mr-8">
         <div className="w-6 h-6 rounded bg-primary flex items-center justify-center">
-          <span className="text-primary-foreground font-bold text-xs">LC</span>
+          <span className="text-primary-foreground font-bold text-xs">AD</span>
         </div>
-        <span className="text-nav-foreground font-semibold text-sm tracking-tight">LeetCode</span>
+        <span className="text-nav-foreground font-semibold text-sm tracking-tight">AnbuDevs</span>
       </Link>
 
       <div className="flex items-center gap-1">
