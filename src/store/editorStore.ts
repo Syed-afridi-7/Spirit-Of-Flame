@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { SubmissionRecord } from '@/types/problem';
+import type { SubmissionRecord } from '@/types';
+import type { EditorThemeKey } from '@/lib/monacoThemes';
 
 export interface ContestState {
   active: boolean;
@@ -40,7 +41,7 @@ interface EditorState {
   solvedProblems: number[];
   submissionHistory: Record<number, SubmissionRecord[]>;
   notesMap: Record<number, string>;
-  editorTheme: string;
+  editorTheme: EditorThemeKey;
   contest: ContestState | null;
 
   // Actions
@@ -63,7 +64,7 @@ interface EditorState {
   getSubmissions: (problemId: number) => SubmissionRecord[];
   getNote: (problemId: number) => string;
   setNote: (problemId: number, note: string) => void;
-  setEditorTheme: (theme: string) => void;
+  setEditorTheme: (theme: EditorThemeKey) => void;
   startContest: (problemIds: number[]) => void;
   endContest: () => void;
   submitContestProblem: (problemId: number) => void;
@@ -74,7 +75,7 @@ export const useEditorStore = create<EditorState>()(
     (set, get) => ({
       codeMap: {},
       langMap: {},
-      defaultLang: 'python',
+      defaultLang: 'Python',
       consoleOpen: false,
       consoleTab: 'testcase',
       running: false,

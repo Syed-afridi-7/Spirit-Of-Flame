@@ -1,8 +1,28 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Check, Search, SlidersHorizontal, Shuffle, ChevronDown } from "lucide-react";
-import { problems, topicTags, categoryTabs, type Difficulty } from "@/data/problems";
+import { problems } from "@/data/problems";
 import DifficultyBadge from "@/components/DifficultyBadge";
+import type { Difficulty } from "@/types";
+
+type TopicTag = { name: string; count: number };
+type CategoryTab = { name: string };
+
+const topicTags: TopicTag[] = Object.entries(
+  problems.reduce<Record<string, number>>((accumulator, problem) => {
+    for (const tag of problem.tags) {
+      accumulator[tag] = (accumulator[tag] ?? 0) + 1;
+    }
+    return accumulator;
+  }, {}),
+)
+  .map(([name, count]) => ({ name, count }))
+  .sort((a, b) => b.count - a.count);
+
+const categoryTabs: CategoryTab[] = [
+  { name: "All Topics" },
+  ...Array.from(new Set(problems.map((problem) => problem.category))).map((name) => ({ name })),
+];
 
 const ProblemList = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -13,7 +33,8 @@ const ProblemList = () => {
   const filteredProblems = problems.filter((p) => {
     const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesDifficulty = selectedDifficulty === "All" || p.difficulty === selectedDifficulty;
-    return matchesSearch && matchesDifficulty;
+    const matchesCategory = activeCategory === "All Topics" || p.category === activeCategory;
+    return matchesSearch && matchesDifficulty && matchesCategory;
   });
 
   const totalSolved = problems.filter((p) => p.solved).length;

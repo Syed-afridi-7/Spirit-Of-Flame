@@ -1,4 +1,4 @@
-import { type Difficulty } from "@/data/problems";
+import type { Difficulty } from "@/types";
 
 const DifficultyBadge = ({ difficulty }: { difficulty: Difficulty }) => {
   const colorClass = {

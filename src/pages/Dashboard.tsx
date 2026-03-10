@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Code2, Brain, MessageSquare, Map, ChevronRight, TrendingUp, Target, Zap, Award, BookOpen, BarChart2, Star, Play } from 'lucide-react';
 import { RadialBarChart, RadialBar, ResponsiveContainer, Cell } from 'recharts';
 import CodingHeatmap from '@/components/CodingHeatmap';
 import TutorialProgress from '@/components/TutorialProgress';
+import SkillRadar from '@/components/SkillRadar';
+import WeeklyGoals from '@/components/WeeklyGoals';
+import { SEO } from '@/components/SEO';
+import { useEditorStore } from '@/store/editorStore';
+import { problems } from '@/data/problems';
 
 // Circular Progress component
 const CircularProgress = ({ value, label, color, sublabel }: { value: number; label: string; color: string; sublabel: string }) => {
@@ -38,19 +43,10 @@ const CircularProgress = ({ value, label, color, sublabel }: { value: number; la
     );
 };
 
-const statsData = [
-    { label: 'Problems Solved', value: 42, icon: Code2, color: 'text-orange-400', bg: 'bg-orange-500/10', change: '+5 this week' },
-    { label: 'Aptitude Score', value: '780/1000', icon: Brain, color: 'text-blue-400', bg: 'bg-blue-500/10', change: '+60 this month' },
-    { label: 'Streak', value: '7 days', icon: Zap, color: 'text-yellow-400', bg: 'bg-yellow-500/10', change: 'Keep going!' },
-    { label: 'Rank', value: '#1,234', icon: Award, color: 'text-purple-400', bg: 'bg-purple-500/10', change: 'Top 15%' },
-];
-
-const recentActivity = [
+const recentActivityFallback = [
     { title: 'Two Sum', difficulty: 'Easy', status: 'Solved', time: '2h ago', lang: 'Python' },
     { title: 'Container With Most Water', difficulty: 'Medium', status: 'Solved', time: '1d ago', lang: 'JavaScript' },
     { title: 'Median of Two Sorted Arrays', difficulty: 'Hard', status: 'Attempted', time: '2d ago', lang: 'Java' },
-    { title: 'Percentage - Aptitude', difficulty: 'Easy', status: 'Solved', time: '3d ago', lang: 'Quiz' },
-    { title: 'Self Introduction Practice', difficulty: 'Easy', status: 'Completed', time: '4d ago', lang: 'English' },
 ];
 
 const quickActions = [
@@ -60,15 +56,57 @@ const quickActions = [
     { title: 'Roadmaps', subtitle: 'Career Paths 2026', icon: Map, to: '/roadmaps', color: 'from-purple-500 to-violet-500', count: '10 Trending' },
 ];
 
-const difficultyStats = [
-    { name: 'Easy', solved: 35, total: 200, color: '#22c55e' },
-    { name: 'Medium', solved: 7, total: 200, color: '#f97316' },
-    { name: 'Hard', solved: 0, total: 200, color: '#ef4444' },
-];
-
 const Dashboard = () => {
+    const { solvedProblems, submissionHistory } = useEditorStore();
+
+    const { statsData, difficultyStats, recentActivity } = useMemo(() => {
+        const totalSolved = solvedProblems.length;
+        const totalSubmissions = Object.values(submissionHistory).reduce((acc, subs) => acc + subs.length, 0);
+
+        const easy = problems.filter(p => p.difficulty === 'Easy');
+        const medium = problems.filter(p => p.difficulty === 'Medium');
+        const hard = problems.filter(p => p.difficulty === 'Hard');
+
+        const easySolved = easy.filter(p => solvedProblems.includes(p.id)).length;
+        const mediumSolved = medium.filter(p => solvedProblems.includes(p.id)).length;
+        const hardSolved = hard.filter(p => solvedProblems.includes(p.id)).length;
+
+        // Build recent activity from submission history
+        const allSubs = Object.values(submissionHistory).flat().sort((a, b) => b.timestamp - a.timestamp).slice(0, 5);
+        const recent = allSubs.length > 0
+            ? allSubs.map(s => {
+                const prob = problems.find(p => p.id === s.problemId);
+                const diff = Date.now() - s.timestamp;
+                const time = diff < 3600000 ? `${Math.floor(diff / 60000)}m ago` : diff < 86400000 ? `${Math.floor(diff / 3600000)}h ago` : `${Math.floor(diff / 86400000)}d ago`;
+                return {
+                    title: prob?.title || `Problem #${s.problemId}`,
+                    difficulty: prob?.difficulty || 'Easy',
+                    status: s.verdict === 'Accepted' ? 'Solved' : 'Attempted',
+                    time,
+                    lang: s.language,
+                };
+            })
+            : recentActivityFallback;
+
+        return {
+            statsData: [
+                { label: 'Problems Solved', value: totalSolved, icon: Code2, color: 'text-orange-400', bg: 'bg-orange-500/10', change: `${totalSubmissions} submissions` },
+                { label: 'Easy Solved', value: `${easySolved}/${easy.length}`, icon: Brain, color: 'text-green-400', bg: 'bg-green-500/10', change: `${Math.round((easySolved / Math.max(easy.length, 1)) * 100)}% done` },
+                { label: 'Medium Solved', value: `${mediumSolved}/${medium.length}`, icon: Zap, color: 'text-orange-400', bg: 'bg-orange-500/10', change: `${Math.round((mediumSolved / Math.max(medium.length, 1)) * 100)}% done` },
+                { label: 'Hard Solved', value: `${hardSolved}/${hard.length}`, icon: Award, color: 'text-red-400', bg: 'bg-red-500/10', change: `${Math.round((hardSolved / Math.max(hard.length, 1)) * 100)}% done` },
+            ],
+            difficultyStats: [
+                { name: 'Easy', solved: easySolved, total: easy.length, color: '#22c55e' },
+                { name: 'Medium', solved: mediumSolved, total: medium.length, color: '#f97316' },
+                { name: 'Hard', solved: hardSolved, total: hard.length, color: '#ef4444' },
+            ],
+            recentActivity: recent,
+        };
+    }, [solvedProblems, submissionHistory]);
+
     return (
         <div className="p-4 md:p-6 space-y-6 max-w-7xl mx-auto">
+            <SEO title="Dashboard" description="Track your coding progress, aptitude score, and learning streak on AnbuDevs." path="/" />
             {/* Welcome Banner */}
             <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500/20 via-orange-500/10 to-transparent border border-orange-500/20 p-6">
                 <div className="relative z-10">
@@ -118,6 +156,12 @@ const Dashboard = () => {
                 </div>
             </div>
 
+            {/* Skill Radar & Weekly Goals */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <SkillRadar />
+                <WeeklyGoals />
+            </div>
+
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Progress trackers */}
                 <div className="lg:col-span-2 bg-card border border-border rounded-xl p-6">
@@ -131,9 +175,9 @@ const Dashboard = () => {
                     </div>
 
                     <div className="flex flex-wrap justify-around gap-8 mb-6">
-                        <CircularProgress value={65} label="Coding" sublabel="42/600 solved" color="#f97316" />
-                        <CircularProgress value={48} label="Aptitude" sublabel="780/1000 pts" color="#3b82f6" />
-                        <CircularProgress value={30} label="English" sublabel="3/10 modules" color="#22c55e" />
+                        <CircularProgress value={Math.round((solvedProblems.length / Math.max(problems.length, 1)) * 100)} label="Coding" sublabel={`${solvedProblems.length}/${problems.length} solved`} color="#f97316" />
+                        <CircularProgress value={48} label="Aptitude" sublabel="In progress" color="#3b82f6" />
+                        <CircularProgress value={30} label="English" sublabel="In progress" color="#22c55e" />
                     </div>
 
                     {/* DSA breakdown */}

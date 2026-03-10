@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { MessageSquare, User, BookOpen, Mic, Star, ChevronRight, CheckCircle } from 'lucide-react';
+import { SEO } from '@/components/SEO';
 
 const introductions = [
     {
@@ -45,6 +46,7 @@ const Communication = () => {
 
     return (
         <div className="p-4 md:p-6 max-w-4xl mx-auto space-y-6">
+            <SEO title="English & Verbal" description="Improve your English and communication skills for placements." path="/communication" />
             <div>
                 <h2 className="text-xl font-bold text-foreground">Communication Skills 💬</h2>
                 <p className="text-sm text-muted-foreground">Master English basics and ace your placement interviews</p>

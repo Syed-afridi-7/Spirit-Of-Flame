@@ -7,7 +7,8 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { useProblems } from '@/hooks/useProblems';
 import CodingHeatmap from '@/components/CodingHeatmap';
-import type { Difficulty } from '@/types/problem';
+import { SEO } from '@/components/SEO';
+import type { Difficulty } from '@/types';
 
 const DIFFICULTY_STYLES: Record<Difficulty, string> = {
   Easy: 'bg-green-500/10 text-green-400 border-green-500/20',
@@ -52,12 +53,13 @@ const CodeLab: React.FC = () => {
 
   return (
     <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-6">
+      <SEO title="Code Lab" description="Practice 3000+ DSA problems from LeetCode, HackerRank, Codeforces & CodeChef with a built-in code editor." path="/codelab" />
       {/* Header Stats */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-4">
         <div>
           <h2 className="text-xl font-bold text-foreground">Code Lab</h2>
           <p className="text-sm text-muted-foreground">
-            {loading ? 'Loading...' : `${stats.total.toLocaleString()} problems curated curated for your growth`}
+            {loading ? 'Loading...' : `${stats.total.toLocaleString()} problems curated for your growth`}
           </p>
         </div>
         <div className="sm:ml-auto flex gap-2 flex-wrap">

@@ -1,4 +1,5 @@
-import type { editor } from 'monaco-editor';
+import type * as Monaco from "monaco-editor";
+import type { editor } from "monaco-editor";
 
 export const EDITOR_THEMES = [
   { key: 'vs-dark', label: 'VS Code Dark', builtin: true },
@@ -170,9 +171,9 @@ export const githubDark: editor.IStandaloneThemeData = {
 // ---------------------------------------------------------------------------
 // Registration helper
 // ---------------------------------------------------------------------------
-export function registerThemes(monaco: any): void {
-  monaco.editor.defineTheme('tokyo-night', tokyoNight);
-  monaco.editor.defineTheme('one-dark', oneDarkPro);
-  monaco.editor.defineTheme('night-owl', nightOwl);
-  monaco.editor.defineTheme('github-dark', githubDark);
+export function registerThemes(monaco: typeof Monaco): void {
+  monaco.editor.defineTheme("tokyo-night", tokyoNight);
+  monaco.editor.defineTheme("one-dark", oneDarkPro);
+  monaco.editor.defineTheme("night-owl", nightOwl);
+  monaco.editor.defineTheme("github-dark", githubDark);
 }

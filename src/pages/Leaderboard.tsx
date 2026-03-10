@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Trophy, Medal, Flame, Crown, TrendingUp, Award } from 'lucide-react';
+import { SEO } from '@/components/SEO';
 import { leaderboardData, LeaderboardUser } from '@/data/leaderboard';
 
 type TimeFilter = 'weekly' | 'monthly' | 'allTime';
@@ -64,6 +65,7 @@ const Leaderboard: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground p-4 md:p-8 max-w-6xl mx-auto">
+      <SEO title="Leaderboard" description="See top coders on AnbuDevs leaderboard." path="/leaderboard" />
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-orange-400 via-orange-500 to-amber-500 bg-clip-text text-transparent">

@@ -1,5 +1,5 @@
 import React from "react";
-import { ProblemDetail } from "@/types/problem";
+import { ProblemDetail } from "@/types";
 
 interface ProblemDescriptionProps {
     problem: ProblemDetail;

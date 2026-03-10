@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { SEO } from '@/components/SEO';
 import Editor from '@monaco-editor/react';
 import { useEditorStore, mockRunCode, mockSubmitCode } from '@/store/editorStore';
 import type { MockTestCase } from '@/store/editorStore';
@@ -129,14 +130,14 @@ const ContestPage: React.FC = () => {
 
   // Determine which screen to show
   if (contest && contest.active && !contest.finished) {
-    return <ActiveContestScreen />;
+    return <><SEO title="Contest Mode" description="Test your coding skills in timed contests." path="/contest" /><ActiveContestScreen /></>;
   }
 
   if (contest && contest.finished) {
-    return <ResultsScreen onNewContest={handleNewContest} />;
+    return <><SEO title="Contest Mode" description="Test your coding skills in timed contests." path="/contest" /><ResultsScreen onNewContest={handleNewContest} /></>;
   }
 
-  return <SetupScreen onStart={handleStart} />;
+  return <><SEO title="Contest Mode" description="Test your coding skills in timed contests." path="/contest" /><SetupScreen onStart={handleStart} /></>;
 };
 
 // ===========================================================================

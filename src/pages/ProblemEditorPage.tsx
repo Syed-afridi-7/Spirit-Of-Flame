@@ -1,14 +1,18 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ChevronLeft, ChevronRight, GripVertical, GripHorizontal, BookOpen, Clock } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight, GripVertical, GripHorizontal, BookOpen, Clock, MessageSquare, Lightbulb } from "lucide-react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { problems, getProblemById } from "@/data/problems";
-import { ProblemDetail as ProblemDetailType, ExecutionResult } from "@/types/problem";
+import type { ProblemDetail as ProblemDetailType, ExecutionResult } from "@/types";
+import type { ExecutionTestCase } from "@/services/judge0Service";
 import { ProblemDescription } from "@/components/Problem/ProblemDescription";
 import { SubmissionHistory } from "@/components/Problem/SubmissionHistory";
+import { DiscussionPanel } from "@/components/Problem/DiscussionPanel";
+import { EditorialPanel } from "@/components/Problem/EditorialPanel";
 import { CodeEditor } from "@/components/Editor/CodeEditor";
 import { ExecutionResultPanel } from "@/components/Editor/ExecutionResultPanel";
+import { SEO } from "@/components/SEO";
 import { useEditorStore } from "@/store/editorStore";
 
 const getFormattedProblem = (id: string | undefined): ProblemDetailType | undefined => {
@@ -25,7 +29,7 @@ const getFormattedProblem = (id: string | undefined): ProblemDetailType | undefi
     starterCode: p.starterCode,
     tags: p.tags,
     optimalComplexity: p.optimalComplexity,
-  } as ProblemDetailType;
+  };
 };
 
 const ProblemEditorPage = () => {
@@ -34,7 +38,7 @@ const ProblemEditorPage = () => {
   const problemIndex = problems.findIndex((p) => p.id === Number(id));
   const problem = getFormattedProblem(id);
 
-  const [activeTab, setActiveTab] = useState<"description" | "submissions">("description");
+  const [activeTab, setActiveTab] = useState<"description" | "submissions" | "discussion" | "editorial">("description");
   const { submissionHistory } = useEditorStore();
 
   const problemSubmissions = useMemo(() => {
@@ -42,6 +46,12 @@ const ProblemEditorPage = () => {
   }, [submissionHistory, id]);
 
   const [executionResult, setExecutionResult] = useState<ExecutionResult | null>(null);
+  const [customTestCases, setCustomTestCases] = useState<ExecutionTestCase[]>([]);
+
+  const handleRunCustomTests = useCallback(async (cases: ExecutionTestCase[]) => {
+    // This is handled inside CodeEditor via the runCustomTests callback
+    // but we keep a no-op here as a placeholder for direct panel usage
+  }, []);
 
   if (!problem) {
     return (
@@ -68,6 +78,7 @@ const ProblemEditorPage = () => {
       exit={{ opacity: 0 }}
       className="h-screen flex flex-col bg-[#1e1e1e] overflow-hidden text-gray-200 font-sans"
     >
+      <SEO title={`${problem.title} - Code Lab`} description={`Solve ${problem.title} (${problem.difficulty}) on AnbuDevs IDE.`} path={`/codelab/problem/${problem.id}`} />
       {/* IDE Header */}
       <div className="h-14 bg-[#111] border-b border-[#333] flex items-center justify-between px-6 shrink-0 shadow-sm z-10">
         <div className="flex items-center gap-6">
@@ -82,6 +93,7 @@ const ProblemEditorPage = () => {
               disabled={!prevProblem}
               className="p-1.5 text-gray-400 hover:text-white hover:bg-[#333] rounded disabled:opacity-30 disabled:hover:bg-transparent transition"
               title="Previous Problem"
+              aria-label="Previous problem"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
@@ -90,6 +102,7 @@ const ProblemEditorPage = () => {
               disabled={!nextProblem}
               className="p-1.5 text-gray-400 hover:text-white hover:bg-[#333] rounded disabled:opacity-30 disabled:hover:bg-transparent transition"
               title="Next Problem"
+              aria-label="Next problem"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -107,18 +120,28 @@ const ProblemEditorPage = () => {
           <Panel defaultSize={45} minSize={30}>
             <div className="h-full flex flex-col bg-[#1e1e1e] border-r border-[#333]">
               {/* Tab Header */}
-              <div className="flex items-center px-4 bg-[#111] border-b border-[#333] gap-4">
+              <div className="flex items-center px-4 bg-[#111] border-b border-[#333] gap-3 overflow-x-auto">
                 <button
                   onClick={() => setActiveTab("description")}
-                  className={`py-3 text-xs font-bold uppercase tracking-widest flex items-center gap-2 transition-all border-b-2 ${activeTab === "description" ? "text-blue-400 border-blue-400" : "text-gray-500 border-transparent hover:text-gray-300"
-                    }`}
+                  className={`py-3 text-xs font-bold uppercase tracking-widest flex items-center gap-2 transition-all border-b-2 whitespace-nowrap ${activeTab === "description" ? "text-blue-400 border-blue-400" : "text-gray-500 border-transparent hover:text-gray-300"}`}
                 >
                   <BookOpen size={14} /> Description
                 </button>
                 <button
+                  onClick={() => setActiveTab("editorial")}
+                  className={`py-3 text-xs font-bold uppercase tracking-widest flex items-center gap-2 transition-all border-b-2 whitespace-nowrap ${activeTab === "editorial" ? "text-blue-400 border-blue-400" : "text-gray-500 border-transparent hover:text-gray-300"}`}
+                >
+                  <Lightbulb size={14} /> Hints
+                </button>
+                <button
+                  onClick={() => setActiveTab("discussion")}
+                  className={`py-3 text-xs font-bold uppercase tracking-widest flex items-center gap-2 transition-all border-b-2 whitespace-nowrap ${activeTab === "discussion" ? "text-blue-400 border-blue-400" : "text-gray-500 border-transparent hover:text-gray-300"}`}
+                >
+                  <MessageSquare size={14} /> Discuss
+                </button>
+                <button
                   onClick={() => setActiveTab("submissions")}
-                  className={`py-3 text-xs font-bold uppercase tracking-widest flex items-center gap-2 transition-all border-b-2 ${activeTab === "submissions" ? "text-blue-400 border-blue-400" : "text-gray-500 border-transparent hover:text-gray-300"
-                    }`}
+                  className={`py-3 text-xs font-bold uppercase tracking-widest flex items-center gap-2 transition-all border-b-2 whitespace-nowrap ${activeTab === "submissions" ? "text-blue-400 border-blue-400" : "text-gray-500 border-transparent hover:text-gray-300"}`}
                 >
                   <Clock size={14} /> Submissions
                   {problemSubmissions.length > 0 && (
@@ -132,29 +155,19 @@ const ProblemEditorPage = () => {
               {/* Tab Content */}
               <div className="flex-1 overflow-hidden relative">
                 <AnimatePresence mode="wait">
-                  {activeTab === "description" ? (
-                    <motion.div
-                      key="description"
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -10 }}
-                      transition={{ duration: 0.15 }}
-                      className="h-full"
-                    >
-                      <ProblemDescription problem={problem} />
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="submissions"
-                      initial={{ opacity: 0, x: 10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 10 }}
-                      transition={{ duration: 0.15 }}
-                      className="h-full"
-                    >
-                      <SubmissionHistory submissions={problemSubmissions} />
-                    </motion.div>
-                  )}
+                  <motion.div
+                    key={activeTab}
+                    initial={{ opacity: 0, x: activeTab === "description" ? -10 : 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -10 }}
+                    transition={{ duration: 0.15 }}
+                    className="h-full"
+                  >
+                    {activeTab === "description" && <ProblemDescription problem={problem} />}
+                    {activeTab === "editorial" && <EditorialPanel problem={problem} />}
+                    {activeTab === "discussion" && <DiscussionPanel problemId={problem.id} />}
+                    {activeTab === "submissions" && <SubmissionHistory submissions={problemSubmissions} />}
+                  </motion.div>
                 </AnimatePresence>
               </div>
             </div>
@@ -168,27 +181,32 @@ const ProblemEditorPage = () => {
           {/* Right Panel: Editor & Terminal */}
           <Panel minSize={30}>
             <PanelGroup direction="vertical">
-              <Panel defaultSize={70} minSize={30}>
-                <CodeEditor problem={problem} setExecutionResult={setExecutionResult} />
+              <Panel defaultSize={65} minSize={30}>
+                <CodeEditor
+                  problem={problem}
+                  setExecutionResult={setExecutionResult}
+                  customTestCases={customTestCases}
+                  onCustomTestCasesChange={setCustomTestCases}
+                />
               </Panel>
 
-              {executionResult && (
-                <>
-                  <PanelResizeHandle className="h-1.5 bg-[#111] hover:bg-blue-600 active:bg-blue-500 transition-colors cursor-row-resize flex justify-center items-center group relative z-10 shadow-[0_0_10px_rgba(0,0,0,0.5)]">
-                    <GripHorizontal size={14} className="text-gray-600 group-hover:text-blue-300 transition-colors" />
-                  </PanelResizeHandle>
+              <PanelResizeHandle className="h-1.5 bg-[#111] hover:bg-blue-600 active:bg-blue-500 transition-colors cursor-row-resize flex justify-center items-center group relative z-10 shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+                <GripHorizontal size={14} className="text-gray-600 group-hover:text-blue-300 transition-colors" />
+              </PanelResizeHandle>
 
-                  <Panel defaultSize={30} minSize={15}>
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="h-full"
-                    >
-                      <ExecutionResultPanel result={executionResult} />
-                    </motion.div>
-                  </Panel>
-                </>
-              )}
+              <Panel defaultSize={35} minSize={15}>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="h-full"
+                >
+                  <ExecutionResultPanel
+                    result={executionResult}
+                    customTestCases={customTestCases}
+                    onCustomTestCasesChange={setCustomTestCases}
+                  />
+                </motion.div>
+              </Panel>
             </PanelGroup>
           </Panel>
         </PanelGroup>

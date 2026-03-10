@@ -1,6 +1,5 @@
 import Navbar from "@/components/Navbar";
 import ProblemList from "@/components/ProblemList";
-import Sidebar from "@/components/Sidebar";
 
 const Problemset = () => {
   return (
@@ -33,8 +32,13 @@ const Problemset = () => {
         </main>
 
         {/* Right sidebar */}
-        <aside className="hidden xl:block">
-          <Sidebar />
+        <aside className="hidden xl:block w-64">
+          <div className="rounded-xl border border-border bg-card p-4">
+            <h3 className="text-sm font-semibold text-foreground mb-2">Daily Goal</h3>
+            <p className="text-xs text-muted-foreground">
+              Solve 2 medium problems today to keep your streak active.
+            </p>
+          </div>
         </aside>
       </div>
     </div>

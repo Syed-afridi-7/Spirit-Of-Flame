@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { CheckCircle2, XCircle, Clock, Database, Calendar, Code2 } from "lucide-react";
-import { SubmissionRecord } from "@/types/problem";
+import { SubmissionRecord } from "@/types";
 import { formatDistanceToNow } from "date-fns";
 
 interface SubmissionHistoryProps {

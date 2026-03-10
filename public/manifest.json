@@ -1,0 +1,23 @@
+{
+  "name": "AnbuDevs — Developer Skills Hub",
+  "short_name": "AnbuDevs",
+  "description": "Master coding, aptitude, and communication skills. Practice 3000+ DSA problems.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050510",
+  "theme_color": "#f97316",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/mylogo.jpeg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/mylogo.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ],
+  "categories": ["education", "productivity"]
+}

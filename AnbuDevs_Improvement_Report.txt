@@ -1,0 +1,241 @@
+================================================================================
+                    ANBUDEVS - WEBSITE ANALYSIS & IMPROVEMENT REPORT
+================================================================================
+                         Generated: March 8, 2026
+                         Website: https://anbudevs.vercel.app/
+================================================================================
+
+
+OVERVIEW
+--------
+AnbuDevs is a comprehensive developer skills platform combining coding practice
+(3000+ problems), aptitude quizzes, communication training, tutorials, career
+roadmaps, and gamification — built with React + TypeScript + Vite + Tailwind CSS.
+
+
+================================================================================
+1. LOADING SCREEN — CRITICAL FIX
+================================================================================
+
+ISSUE:
+  The 6.5-second forced splash screen is the biggest UX problem. Users cannot
+  skip it, and it loads on every visit. This will cause high bounce rates.
+
+FIX:
+  - Reduce to 1.5-2 seconds max
+  - Add a "Skip" button
+  - Only show the full animation on first visit (use localStorage)
+  - Show actual loading progress instead of a fixed timer
+
+
+================================================================================
+2. SEO & PERFORMANCE
+================================================================================
+
+ISSUES:
+  - No SSR/SSG: Being a pure SPA, search engines will struggle to index content
+  - Monaco editor is a large bundle loaded upfront
+  - No meta tags for social sharing
+  - No sitemap.xml or robots.txt
+
+FIXES:
+  - Consider migrating to Next.js or adding pre-rendering
+  - Lazy load images and heavy components (especially Monaco editor)
+  - Add Open Graph and Twitter card meta tags for social sharing
+  - Add a sitemap.xml and robots.txt
+
+
+================================================================================
+3. AUTHENTICATION & USER ACCOUNTS
+================================================================================
+
+ISSUE:
+  Currently all data is stored in localStorage only — users lose everything
+  if they clear their browser or switch devices.
+
+ADD:
+  - User authentication (Firebase Auth, Supabase, or Clerk)
+  - Cloud sync for progress, submissions, and solved problems
+  - User profiles with avatars
+
+
+================================================================================
+4. BACKEND/DATABASE INTEGRATION
+================================================================================
+
+ISSUES:
+  - The leaderboard uses mock data — not connected to a real backend
+  - Submission history only persists in localStorage
+  - Code execution uses simulated results — not using actual Judge0 API
+
+FIXES:
+  - Connect leaderboard to a real backend/database
+  - Persist submission history server-side
+  - Integrate the real Judge0 API or use Piston API for code execution
+
+
+================================================================================
+5. UI/UX IMPROVEMENTS
+================================================================================
+
++------------------+--------------------------------------+--------------------------------------+
+| Area             | Issue                                | Fix                                  |
++------------------+--------------------------------------+--------------------------------------+
+| Navigation       | Sidebar can feel cluttered           | Add icon-only collapsed mode with    |
+|                  |                                      | tooltips                             |
++------------------+--------------------------------------+--------------------------------------+
+| Mobile           | Code editor on mobile is painful     | Add a "mobile-friendly" mode or      |
+|                  |                                      | warning                              |
++------------------+--------------------------------------+--------------------------------------+
+| Accessibility    | Neon colors may have contrast issues | Run WCAG audit, add                  |
+|                  |                                      | prefers-reduced-motion support       |
++------------------+--------------------------------------+--------------------------------------+
+| Empty States     | Pages may show blank when no data    | Add skeleton loaders and empty       |
+|                  |                                      | state illustrations                  |
++------------------+--------------------------------------+--------------------------------------+
+| Feedback         | No user feedback mechanism           | Add a feedback/bug report button     |
++------------------+--------------------------------------+--------------------------------------+
+
+
+================================================================================
+6. FEATURE ENHANCEMENTS
+================================================================================
+
+  - Discussion Forum:
+      The data exists (discussions.ts) — build a real community forum
+
+  - Bookmarks/Favorites:
+      Let users bookmark problems for later
+
+  - Notes per Problem:
+      Already partially implemented — make it more prominent
+
+  - Code Templates:
+      Pre-fill boilerplate for each language
+
+  - Difficulty Progression:
+      Suggest next problems based on solved history
+
+  - Streaks & Badges:
+      Expand gamification beyond heatmap
+
+  - Contest Mode:
+      The store has contest state — build a real timed contest feature
+
+  - Dark/Light Theme:
+      Already exists — ensure all pages respect it consistently
+
+
+================================================================================
+7. CODE QUALITY & ARCHITECTURE
+================================================================================
+
+  - Duplicate Components:
+      There are overlapping components in components/Editor/ and
+      components/codelab/ — consolidate them
+
+  - Type Safety:
+      Ensure all data types in types/ are properly used across the app
+
+  - Error Handling:
+      AppErrorBoundary.tsx exists — ensure all routes use it
+
+  - Testing:
+      Only 1 test file exists — add unit tests for hooks and critical
+      components
+
+  - Environment Variables:
+      Judge0 API keys should use .env files, not hardcoded values
+
+
+================================================================================
+8. CONTENT & GROWTH
+================================================================================
+
+  - Add More Tutorials:
+      Currently only 4 topics (HTML/CSS, JS, React, SQL) — expand to
+      Python, DSA, System Design
+
+  - Blog/Articles:
+      Add a CMS (Contentful, Sanity, or MDX) instead of hardcoded data
+
+  - Internationalization (i18n):
+      Consider multi-language support for wider reach
+
+  - PWA Support:
+      Add service worker for offline access — great for students with
+      poor connectivity
+
+
+================================================================================
+9. PRIORITY ORDER (WHAT TO DO FIRST)
+================================================================================
+
+  Priority 1: Fix the loading screen
+              (Immediate — users are bouncing)
+
+  Priority 2: Add real authentication + cloud sync
+              (Core feature gap)
+
+  Priority 3: Integrate real code execution
+              (Judge0/Piston API)
+
+  Priority 4: Consolidate duplicate components
+              (Code health)
+
+  Priority 5: Add SEO basics
+              (Meta tags, sitemap)
+
+  Priority 6: Mobile responsiveness audit
+
+  Priority 7: Expand content
+              (Tutorials, articles)
+
+  Priority 8: Add testing
+              (Prevent regressions)
+
+
+================================================================================
+10. CURRENT TECH STACK SUMMARY
+================================================================================
+
+  Framework:        React 18.3.1 + TypeScript 5.8.3
+  Build Tool:       Vite 5.4.19 with SWC
+  Styling:          Tailwind CSS 3.4.17 + shadcn/ui
+  State Mgmt:       Zustand 5.0.11
+  Data Fetching:    TanStack React Query 5.83.0
+  Code Editor:      Monaco Editor 4.7.0
+  Routing:          React Router DOM 6.30.1
+  Animations:       Framer Motion 12.35.0
+  Icons:            Lucide React 0.462.0
+  Charts:           Recharts 2.15.4
+  Forms:            React Hook Form 7.61.1 + Zod 3.25.76
+  Components:       Radix UI (25+ primitives)
+  CSV Parsing:      PapaParse 5.5.3
+  Theme:            next-themes 0.3.0
+  Testing:          Vitest 3.2.4 + Testing Library
+  Deployment:       Vercel
+
+
+================================================================================
+11. PAGES & ROUTES
+================================================================================
+
+  /                          Dashboard (stats, heatmap, recent activity)
+  /codelab                   Problem browsing (search, filter, pagination)
+  /codelab/problem/:id       IDE for solving problems (Monaco editor)
+  /aptitude                  MCQ quiz system with timer (200+ questions)
+  /communication             English grammar, interview tips, templates
+  /tutorials                 Tutorial topics (HTML/CSS, JS, React, SQL)
+  /tutorials/:topicId        Tutorial content viewer
+  /articles                  Dev blog and experiences
+  /articles/:id              Individual article view
+  /leaderboard               Competitive rankings with podium
+  /roadmaps                  Career paths (AI/ML, Cybersecurity, etc.)
+  /path/:role                Role-specific learning paths
+  /404                       404 error page
+
+
+================================================================================
+                              END OF REPORT
+================================================================================

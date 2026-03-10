@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Language } from "@/types/problem";
+import { Language } from "@/types";
 
 interface EditorState {
     language: Language | string;

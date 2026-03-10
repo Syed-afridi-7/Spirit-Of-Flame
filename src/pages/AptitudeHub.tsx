@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { aptitudeQuestions, aptitudeCategories, aptitudeSubCategories, AptitudeQuestion } from '@/data/aptitude';
+import { SEO } from '@/components/SEO';
 import { Timer, CheckCircle, XCircle, ChevronRight, BarChart2, RefreshCw, Filter } from 'lucide-react';
 
 const AptitudeHub = () => {
@@ -178,6 +179,7 @@ const AptitudeHub = () => {
     // Start screen
     return (
         <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-6">
+            <SEO title="Aptitude Hub" description="Practice aptitude questions for placement exams." path="/aptitude" />
             <div>
                 <h2 className="text-xl font-bold text-foreground">Aptitude Hub 🧠</h2>
                 <p className="text-sm text-muted-foreground">IndiaBix-style quizzes with timer, MCQs, and detailed explanations</p>

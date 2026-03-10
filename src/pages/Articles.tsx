@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { SEO } from '@/components/SEO';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Search, Flame, Clock, Tag } from 'lucide-react';
 
@@ -53,6 +54,7 @@ const Articles = () => {
 
     return (
         <div className="container mx-auto p-6 max-w-7xl animate-fade-in flex flex-col lg:flex-row gap-8">
+            <SEO title="Dev Blog" description="Read developer articles and tech insights." path="/articles" />
             {/* Main Content: Articles List */}
             <div className="flex-1 space-y-6">
                 <div>

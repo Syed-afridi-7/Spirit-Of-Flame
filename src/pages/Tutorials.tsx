@@ -1,4 +1,5 @@
 import React from 'react';
+import { SEO } from '@/components/SEO';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookOpen, Code2, Database, LayoutTemplate } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -43,6 +44,7 @@ const Tutorials = () => {
 
     return (
         <div className="container mx-auto p-6 max-w-7xl animate-fade-in">
+            <SEO title="Tutorials" description="Learn programming with step-by-step tutorials." path="/tutorials" />
             <div className="flex flex-col gap-4 mb-8">
                 <h1 className="text-3xl font-bold tracking-tight text-foreground">Structured Learning Paths</h1>
                 <p className="text-muted-foreground w-[60%]">

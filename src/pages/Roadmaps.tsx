@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { SEO } from '@/components/SEO';
 import {
   Brain, Shield, Cloud, Code2, Database, Server, PenTool, Link as LinkIcon,
   Smartphone, Sparkles, ChevronRight, ChevronDown, ExternalLink,
@@ -496,6 +497,7 @@ const Roadmaps = () => {
 
   return (
     <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-6">
+      <SEO title="Career Roadmaps" description="Explore career roadmaps for trending tech roles." path="/roadmaps" />
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
